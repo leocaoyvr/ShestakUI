@@ -101,6 +101,7 @@ end
 
 T.DebuffBlackList = {
 	-- [spellID] = true,	-- Spell Name
+	[1243069] = true,	-- Horrific Visions
 }
 
 for _, spell in pairs(C.nameplate.ignore_list) do
