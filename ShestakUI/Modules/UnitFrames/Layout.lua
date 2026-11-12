@@ -840,10 +840,10 @@ local function Shared(self, unit)
 				self.Debuffs.tooltipAnchor = "ANCHOR_TOPRIGHT"
 				self.Debuffs.tooltipOffsetY = 3
 				self.Debuffs.size = T.Scale(C.aura.debuff_size)
-				self.Debuffs.spacing = T.Scale(3)
-				self.Debuffs.initialAnchor = "TOPRIGHT"
-				self.Debuffs.growthX = "LEFT"
-				self.Debuffs.growthY = "DOWN"
+
+				self.Debuffs.sortDirection = AuraContainerSortDirection.Reverse
+				self.Debuffs.PostCreateButton = T.PostCreateIcon
+
 				if (T.class == "DEATHKNIGHT" and C.unitframe_class_bar.rune)
 				or ((T.class == "DRUID" or T.class == "ROGUE") and C.unitframe_class_bar.combo and C.unitframe_class_bar.combo_old ~= true)
 				or (T.class == "SHAMAN" and C.unitframe_class_bar.totem)
@@ -866,16 +866,17 @@ local function Shared(self, unit)
 		if unit == "target" then
 			-- Auras on target
 			if C.aura.target_auras then
-				self.Auras = CreateFrame("Frame", self:GetName().."_Auras", self)
+				self.Auras = self:CreateAuras({
+					initialAnchor = "BOTTOMLEFT",
+					growthX = "RIGHT",
+					growthY = "UP",
+					layoutLimit = player_width + 5,
+				})
 				self.Auras:SetPoint("TOPLEFT", self, "TOPRIGHT", 5, 0)
-				self.Auras.initialAnchor = "TOPLEFT"
-				self.Auras.growthX = "RIGHT"
-				self.Auras.growthY = "DOWN"
-				self.Auras.numDebuffs = 16
-				self.Auras.numBuffs = 32
-				self.Auras:SetHeight(165)
-				self.Auras:SetWidth(player_width - 6)
-				self.Auras.spacing = T.Scale(3)
+				self.Auras.showCount = true
+				self.Auras.maxFrameCount = 16
+				self.Auras.elementSpacing = T.Scale(3)
+				self.Auras.lineSpacing = T.Scale(3)
 				self.Auras.size = T.Scale(C.aura.debuff_size)
 				self.Auras.groupLineSpacing = T.Scale(3)
 				self.Auras.tooltipAnchor = "ANCHOR_TOPLEFT"
@@ -990,18 +991,10 @@ local function Shared(self, unit)
 			self.Castbar:SetHeight(C.unitframe.castbar_height)
 		elseif unit == "target" then
 			if C.unitframe.castbar_icon then
-				if C.unitframe.plugins_swing then
-					self.Castbar:SetPoint(C.position.unitframes.target_castbar[1], C.position.unitframes.target_castbar[2], C.position.unitframes.target_castbar[3], C.position.unitframes.target_castbar[4] - C.unitframe.castbar_height - 7, C.position.unitframes.target_castbar[5] + 12)
-				else
-					self.Castbar:SetPoint(C.position.unitframes.target_castbar[1], C.position.unitframes.target_castbar[2], C.position.unitframes.target_castbar[3], C.position.unitframes.target_castbar[4] - C.unitframe.castbar_height - 7, C.position.unitframes.target_castbar[5])
-				end
+				self.Castbar:SetPoint(C.position.unitframes.target_castbar[1], C.position.unitframes.target_castbar[2], C.position.unitframes.target_castbar[3], C.position.unitframes.target_castbar[4] - C.unitframe.castbar_height - 7, C.position.unitframes.target_castbar[5] + 12)
 				self.Castbar:SetWidth(unpack(C.position.unitframes.castbar_width))
 			else
-				if C.unitframe.plugins_swing then
-					self.Castbar:SetPoint(C.position.unitframes.target_castbar[1], C.position.unitframes.target_castbar[2], C.position.unitframes.target_castbar[3], C.position.unitframes.target_castbar[4], C.position.unitframes.target_castbar[5] + 12)
-				else
-					self.Castbar:SetPoint(unpack(C.position.unitframes.target_castbar))
-				end
+				self.Castbar:SetPoint(C.position.unitframes.target_castbar[1], C.position.unitframes.target_castbar[2], C.position.unitframes.target_castbar[3], C.position.unitframes.target_castbar[4] - C.unitframe.castbar_height + 8, C.position.unitframes.target_castbar[5])
 				self.Castbar:SetWidth(player_width)
 			end
 			self.Castbar:SetHeight(C.unitframe.castbar_height)
