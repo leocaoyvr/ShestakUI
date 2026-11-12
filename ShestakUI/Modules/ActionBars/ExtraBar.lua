@@ -11,7 +11,7 @@ else
 	anchor:SetPoint(unpack(C.position.extra_button))
 end
 local size = C.actionbar.button_size * 2 + C.actionbar.button_space
-anchor:SetSize(size, size)
+anchor:SetSize(43, 43)
 anchor:SetFrameStrata("LOW")
 RegisterStateDriver(anchor, "visibility", "[petbattle] hide; show")
 
@@ -59,14 +59,14 @@ hooksecurefunc(ZoneAbilityFrame, "SetParent", function(self, parent)
 end)
 
 C_Timer.After(0.1, function()
-	ZoneAbilityFrame.SpellButtonContainer:SetSize(size, size)
+	ZoneAbilityFrame.SpellButtonContainer:SetSize(47, 47)
 end)
 
 hooksecurefunc("ExtraActionBar_Update", function()
 	local positionTable = T.CurrentProfile()
 	if positionTable["ZoneButtonAnchor"] then return end
 	if C_ActionBar.HasExtraActionBar() then
-		zoneAnchor:SetPoint("BOTTOMRIGHT", anchor, "BOTTOMLEFT", -3, 0)
+		zoneAnchor:SetPoint("RIGHT", ExtraActionBarFrame, "LEFT", -3, -3)
 	else
 		if C.actionbar.split_bars then
 			zoneAnchor:SetPoint(C.position.zone_button[1], SplitBarLeft, C.position.zone_button[3], C.position.zone_button[4], C.position.zone_button[5])
@@ -89,7 +89,7 @@ end
 button.style:SetTexture(nil)
 hooksecurefunc(texture, "SetTexture", disableTexture)
 
-button:SetSize(size, size)
+button:SetSize(47, 47)
 
 button.Count:SetFont(C.font.cooldown_timers_font, C.font.cooldown_timers_font_size, C.font.cooldown_timers_font_style)
 button.Count:SetShadowOffset(C.font.cooldown_timers_font_shadow and 1 or 0, C.font.cooldown_timers_font_shadow and -1 or 0)
