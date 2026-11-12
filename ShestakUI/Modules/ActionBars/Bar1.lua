@@ -122,3 +122,29 @@ end
 if C.actionbar.editor and C.actionbar.bar1_mouseover then
 	SetupMouseOver("ActionButton", Bar1MouseOver, bar)
 end
+
+----------------------------------------------------------------------------------------
+--  Hide bottom bar1 in rest & no target
+----------------------------------------------------------------------------------------
+
+for i = 1, 12 do
+    local b = _G["ActionButton"..i]
+    b:SetAlpha(0)
+    b:RegisterEvent("PLAYER_REGEN_ENABLED")
+    b:RegisterEvent("PLAYER_REGEN_DISABLED")
+    b:RegisterEvent("PLAYER_TARGET_CHANGED")
+
+    b:HookScript("OnEvent", function(self, event)
+        if event == "PLAYER_REGEN_DISABLED" then
+            BottomBarMouseOver(1)
+        elseif event == "PLAYER_REGEN_ENABLED" or event == "PLAYER_TARGET_CHANGED" then
+            if not (InCombatLockdown() or UnitExists("target")) then BottomBarMouseOver(0)
+            else BottomBarMouseOver(1) end
+    end
+    end)
+
+    b:HookScript("OnEnter", function() BottomBarMouseOver(1) end)
+    b:HookScript("OnLeave", function()
+        if not (InCombatLockdown() or UnitExists("target")) then BottomBarMouseOver(0) end
+    end)
+end
