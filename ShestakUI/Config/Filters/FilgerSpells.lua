@@ -3296,6 +3296,9 @@ do
 	if C_SpellBook.IsSpellKnown(378888) then
 		T.FilgerIgnoreSpell[GetSpellInfo(271788)] = true
 	end
+
+	T.FilgerIgnoreSpell[GetSpellInfo(1243069)] = true -- ignore shawdow priest - horrific visions
+    T.FilgerIgnoreSpell[GetSpellInfo(15407)] = true -- ignore shawdow priest - mind flay
 end
 
 -- Build spell list for Aura container system
