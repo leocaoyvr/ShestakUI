@@ -103,8 +103,19 @@ local function UpdateAlpha(obj)
 	end
 
 	obj:SetAlpha(alpha)
-	obj:SetScript("OnEnter", function(self) self:SetAlpha(1) UnitFrame_OnEnter(obj) end)
-	obj:SetScript("OnLeave", function(self) self:SetAlpha(alpha) UnitFrame_OnLeave(obj) end)
+
+	obj:SetScript("OnEnter", function(self)
+	    self:SetAlpha(1)
+	    if self.unit and UnitExists(self.unit) then
+	        GameTooltip_SetDefaultAnchor(GameTooltip, self)
+	        GameTooltip:SetUnit(self.unit)
+	    end
+	end)
+
+	obj:SetScript("OnLeave", function(self)
+	    self:SetAlpha(alpha)
+	    GameTooltip:Hide()
+	end)
 end
 
 local t = 0
